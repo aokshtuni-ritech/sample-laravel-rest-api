@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -25,7 +26,9 @@ use Illuminate\Support\Carbon;
  * @property-read User $user
  * @method static Employee create($attribute)
  * @method static Employee find($id)
- *
+ * @method static Employee first()
+ * @method static Builder|Employee query()
+ * @method static Builder|Employee where(...$args)
  */
 class Employee extends Model
 {

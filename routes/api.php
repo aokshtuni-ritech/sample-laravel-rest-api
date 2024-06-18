@@ -5,6 +5,7 @@ use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\Admin\AdminEmployeeController;
 use App\Http\Controllers\EntityMappingController;
 use App\Http\Controllers\IntegrationController;
+use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -22,7 +23,6 @@ Route::prefix('v1')->group(function () {
         Route::middleware(['is-user'])
             ->group(function () {
                 Route::resource('employees', EmployeeController::class);
-                Route::resource('entity-mapping', EntityMappingController::class);
             });
 
         Route::middleware(['is-admin'])
@@ -30,7 +30,8 @@ Route::prefix('v1')->group(function () {
             ->group(function () {
                 Route::get('employees', [AdminEmployeeController::class, 'getAll']);
                 Route::post('integration/{integration}/set-token', [IntegrationController::class, 'setToken']);
-                Route::resource('entity-mapping', EntityMappingController::class);
+                Route::resource('entity-mappings', EntityMappingController::class);
+                Route::resource('users', UserController::class);
         });
     });
 });

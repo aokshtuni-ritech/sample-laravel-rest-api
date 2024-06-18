@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Enums\UserRole;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -15,6 +16,7 @@ use Laravel\Passport\HasApiTokens;
  * @property-read int $id
  * @property string $name
  * @property string $email
+ * @property string $password
  * @property UserRole $role
  * @property Carbon|null $email_verified_at
  * @property Carbon $created_at
@@ -22,6 +24,9 @@ use Laravel\Passport\HasApiTokens;
  * @property-read Collection|Employee[] $employees
  * @method static User create($attribute)
  * @method static User find($id)
+ * @method static User first()
+ * @method static Builder|User query()
+ * @method static Builder|User where(...$args)
  *
  */
 

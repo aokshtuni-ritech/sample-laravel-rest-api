@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\EntityType;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -23,6 +24,9 @@ use Illuminate\Support\Carbon;
  * @property-read Collection|RequestLog[] $requestLogs
  * @method static Integration create($attribute)
  * @method static Integration find($id)
+ * @method static Integration first()
+ * @method static Builder|Integration query()
+ * @method static Builder|Integration where(...$args)
  *
  */
 class Integration extends Model

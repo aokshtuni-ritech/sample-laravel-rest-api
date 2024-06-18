@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\EntityType;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -21,6 +22,9 @@ use Illuminate\Support\Carbon;
  * @property-read Integration $integration
  * @method static EntityMapping create($attribute)
  * @method static EntityMapping find($id)
+ * @method static EntityMapping first()
+ * @method static Builder|EntityMapping query()
+ * @method static Builder|EntityMapping where(...$args)
  *
  */
 class EntityMapping extends Model

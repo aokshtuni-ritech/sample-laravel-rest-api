@@ -3,6 +3,8 @@
 namespace App\Services;
 
 use App\DTO\TrackTikEmployee;
+use App\Jobs\CreateEmployeeJob;
+use App\Jobs\UpdateEmployeeJob;
 use App\Models\Employee;
 use App\Models\User;
 use App\Services\HttpClient\TrackTikClient;
@@ -27,13 +29,10 @@ class EmployeeService {
             )
         );
 
-        $toIntegration = $this->sendEmployeeToIntegration($employee);
+        $employee = $this->sendEmployeeToIntegration($employee);
 
-        if ($toIntegration && isset($toIntegration['data']['id'])) {
-            $employee->update([
-                'external_id' => $toIntegration['data']['id']
-            ]);
-        }
+        // Here this is better to be handled by a Job on the queue instead of waiting for the HTTP request.
+        // CreateEmployeeJob::dispatch($employee);
 
         return $employee;
     }
@@ -46,16 +45,27 @@ class EmployeeService {
 
         if (!empty($employee->external_id)) {
             $toIntegration = $this->updateEmployeeToIntegration($employee);
+
+            // Here this is better to be handled by a Job on the queue instead of waiting for the HTTP request.
+            // UpdateEmployeeJob::dispatch($employee);
         }
 
         return $employee;
     }
 
-    public function sendEmployeeToIntegration(Employee $employee)
+    public function sendEmployeeToIntegration(Employee $employee): Employee
     {
-        return $this
+        $response = $this
             ->trackTikClient
             ->createEmployee($employee, TrackTikEmployee::fromEmployee($employee));
+
+        if ($response && isset($response['data']['id'])) {
+            $employee->update([
+                'external_id' => $response['data']['id']
+            ]);
+        }
+
+        return $employee;
     }
 
     public function updateEmployeeToIntegration(Employee $employee)

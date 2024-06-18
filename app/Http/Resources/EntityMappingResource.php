@@ -14,6 +14,13 @@ class EntityMappingResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        return [
+            'id' => $this->id,
+            'user_id' => $this->user_id,
+            'integration_id' => $this->integration_id,
+            'entity_type' => $this->entity_type,
+            'mapping' => $this->mapping,
+            'integration' => new IntegrationResource($this->integration),
+        ];
     }
 }
