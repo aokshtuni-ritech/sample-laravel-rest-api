@@ -14,27 +14,32 @@ The Laravel framework is open-sourced software licensed under the [MIT license](
 ## About the project
 
 This is a simple REST Api project which has the basics of Laravel and it is used as a proxy service to send data to another REST Api which in this case is [TrackTik](https://smoke.staffr.net/rest/v1/2020-01-01/core/entities#tag/employees/operation/createOneEmployees)
-There are 2 types of Roles USER and ADMIN and there are middlewares that are checking for the user logged in.
+There are 2 types of Roles <code>USER</code> and <code>ADMIN</code> and there are middlewares that are checking for the user logged in.
 I am using [Laravel Passport](https://laravel.com/docs/11.x/passport) to handle the OAuth Authorization for users.
-This is helpful in this example to create clients/providers for users using default Passport endpoints.
+This is helpful in this example to create clients/providers (OAuth tokens) for users using default Passport endpoints which in this case are very similar as the [TrackTick flow](https://smoke.staffr.net/rest/v1/2020-01-01/system/oauth2)
 
 ## How to set up project
 
-Clone this repository and from the project root directory run in terminal:
+Clone this repository.
+After that create <code>.env</code> file on the root directory and add the content of <code>.env.example</code> there.
+On the terminal on the project root directory run:
 ```
 git clone git@github.com:aokshtuni-ritech/sample-laravel-rest-api.git
 composer install
 ./vendor/bin/sail up
 ```
+
 The last command will create docker containers and start them.
 This will take some time to complete, go get some coffee or do something else in the meantime.
 Application will be running on [localhost](http://localhost) after this command.
 
 If you are running this on MacOS with Apple chip, this maybe will not run very well.
+You have to replace the content of <code>docker-compose.yml</code> with the content of <code>docker-compose-m1.yml</code>
 
 To proceed with the steps forward on setting up the application run the following commands:
 
 ```
+./vendor/bin/sail artisan key:generate
 ./vendor/bin/sail artisan migrate:fresh --seed
 ./vendor/bin/sail artisan passport:keys --force
 ./vendor/bin/sail artisan passport:client --personal
