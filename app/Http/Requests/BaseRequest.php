@@ -36,7 +36,8 @@ class BaseRequest extends FormRequest
 
         $entityMapping = EntityMapping::query()
             ->where('user_id', $user->id)
-            ->where('integration_id', $this->input('integration_id'))
+            // ->where('integration_id', $this->input('integration_id'))
+            ->where('integration_id', 1)
             ->where('entity_type', EntityType::EMPLOYEE->value)
             ->first();
 
@@ -46,7 +47,7 @@ class BaseRequest extends FormRequest
     public function getRules(): array
     {
         $mapping = $this->getEmployeeEntityMapping();
-        if ($mapping) {
+        if ($mapping && $mapping->mapping) {
             return $this->generateRules($mapping);
         }
 
@@ -57,26 +58,26 @@ class BaseRequest extends FormRequest
     {
         $rules = [];
 
-        foreach ($mapping as $field) {
+        foreach ($mapping->mapping as $field) {
             $fieldRules = [];
-            if ($field['is_required']) {
+            if (!empty($field['is_required'])) {
                 $fieldRules[] = 'required';
             } else {
                 $fieldRules[] = 'sometimes';
                 $fieldRules[] = 'nullable';
             }
 
-            if ($field['type']) {
+            if (!empty($field['type'])) {
                 $fieldRules[] = $field['type'];
             } else {
                 $fieldRules[] = 'string';
             }
 
-            if ($field['max_length']) {
+            if (!empty($field['max_length'])) {
                 $fieldRules[] = 'max:' . $field['max_length'];
             }
 
-            $rules[$fieldRules['provider_field']] = $fieldRules;
+            $rules[$field['provider_field']] = $fieldRules;
         }
 
         return $rules;

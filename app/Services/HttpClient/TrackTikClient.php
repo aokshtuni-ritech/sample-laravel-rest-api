@@ -56,7 +56,7 @@ class TrackTikClient extends BaseClient {
      * @return \GuzzleHttp\Promise\PromiseInterface|\Illuminate\Http\Client\Response
      * @throws \Exception
      */
-    public function createEmployee(Employee $employee, TrackTikEmployee $dto)
+    public function createEmployee(Employee $employee, array $payload)
     {
         $uri = 'v1/employees';
 
@@ -65,12 +65,12 @@ class TrackTikClient extends BaseClient {
             $this->integration->id,
             $uri,
             RequestType::POST,
-            $dto->toArray()
+            $payload
         );
 
         $response = $this->trySendPost(
             $uri,
-            $dto->toArray()
+            $payload
         );
 
         $requestLog->update([
@@ -91,7 +91,7 @@ class TrackTikClient extends BaseClient {
      * @return \GuzzleHttp\Promise\PromiseInterface|\Illuminate\Http\Client\Response
      * @throws \Exception
      */
-    public function updateEmployee(Employee $employee, TrackTikEmployee $dto)
+    public function updateEmployee(Employee $employee, array $payload)
     {
         $uri = 'v1/employees/'.$employee->external_id;
 
@@ -100,12 +100,12 @@ class TrackTikClient extends BaseClient {
             $this->integration->id,
             $uri,
             RequestType::PUT,
-            $dto->toArray()
+            $payload
         );
 
         $response = $this->trySendPut(
             $uri,
-            $dto->toArray()
+            $payload
         );
 
         $requestLog->update([
